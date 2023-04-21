@@ -2,3 +2,26 @@ GET https://api-todos-0ylw.onrender.com/api/v1/todos
 
 ###
 GET https://api-todos-0ylw.onrender.com/api/v1/todos/63dc7dbc5f13de8f94fee612
+
+###
+POST https://api-todos-0ylw.onrender.com/api/v1/todos
+Content-Type: application/json
+
+{
+    "title": "Create todo test",
+    "description": "Create todo test des",
+    "completed": true
+}
+
+###
+DELETE https://api-todos-0ylw.onrender.com/api/v1/todos/6442837afdc8c6891178ff4e
+
+###
+PUT https://api-todos-0ylw.onrender.com/api/v1/todos/63dc7dbc5f13de8f94fee612
+Content-Type: application/json
+
+{
+    "title": "Quet nha hehe update",
+    "description": "Clean roomHom nay phai quet nha hihi",
+    "completed": false
+}

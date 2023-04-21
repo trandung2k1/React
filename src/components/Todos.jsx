@@ -13,27 +13,39 @@ class Todos extends Component {
     }
 
     async componentDidMount() {
-        const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=3');
+        const res = await axios.get('https://api-todos-0ylw.onrender.com/api/v1/todos');
         this.setState({ todos: res.data });
     }
-    handleAdd = (e, data) => {
+    handleAdd = async (e, data) => {
         e.preventDefault();
         const { title, des } = data.state;
-        if (title) {
+        if (title && des) {
             const newTodo = {
-                id: Math.floor(Math.random() * 1000000 - 1),
                 title,
+                description: des,
                 completed: false,
-                userId: 1,
             };
-            const data = [newTodo, ...this.state.todos];
+            const response = await axios.post('https://api-todos-0ylw.onrender.com/api/v1/todos', {
+                ...newTodo,
+            });
+            const data = [...this.state.todos, response.data];
             this.setState({ todos: data });
+            toast.success('Create todo successfully');
+        } else {
+            alert('Title and description is required');
         }
         data.setState({ title: '', des: '' });
     };
-    handleToggle = (id) => {
+    handleToggle = async (id) => {
+        const findTodo = this.state.todos.find((todo) => todo._id === id);
+        const { title, description } = findTodo;
+        await axios.put(`https://api-todos-0ylw.onrender.com/api/v1/todos/${id}`, {
+            title,
+            description,
+            completed: !findTodo.completed,
+        });
         const dataToggle = this.state.todos.map((todo) => {
-            if (todo.id === id) {
+            if (todo._id === id) {
                 todo.completed = !todo.completed;
             }
             return todo;
@@ -41,8 +53,9 @@ class Todos extends Component {
         this.setState({ todos: dataToggle });
         toast.success('Update todo successfully');
     };
-    handleDelete = (id) => {
-        const dataUpdate = this.state.todos.filter((todo) => todo.id !== id);
+    handleDelete = async (id) => {
+        await axios.delete(`https://api-todos-0ylw.onrender.com/api/v1/todos/${id}`);
+        const dataUpdate = this.state.todos.filter((todo) => todo._id !== id);
         this.setState({ todos: dataUpdate });
         toast.success('Delete todo successfully');
     };
@@ -61,7 +74,7 @@ class Todos extends Component {
                     this.state.todos.map((todo) => {
                         return (
                             <TodoItem
-                                key={todo.id}
+                                key={todo._id}
                                 todo={todo}
                                 onToggle={this.handleToggle}
                                 onDelete={this.handleDelete}
