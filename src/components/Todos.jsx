@@ -45,7 +45,7 @@ class Todos extends Component {
             completed: !findTodo.completed,
         });
         const dataToggle = this.state.todos.map((todo) => {
-            if (todo._id === id) {
+            if (todo._id == id) {
                 todo.completed = !todo.completed;
             }
             return todo;

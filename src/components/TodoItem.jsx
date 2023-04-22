@@ -4,7 +4,9 @@ class TodoItem extends Component {
         super(props);
     }
     state = {};
+
     render() {
+        console.log('Rende or re-render');
         return (
             <>
                 <h2 style={{ textDecoration: this.props.todo.completed ? 'line-through' : 'none' }}>
@@ -12,7 +14,9 @@ class TodoItem extends Component {
                 </h2>
                 <button
                     style={{ background: 'blue', color: 'white' }}
-                    onClick={() => this.props.onToggle(this.props.todo._id)}
+                    onClick={() => {
+                        this.props.onToggle(this.props.todo._id);
+                    }}
                 >
                     Toggle
                 </button>
